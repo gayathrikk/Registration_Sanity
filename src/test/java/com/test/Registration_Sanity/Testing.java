@@ -6,6 +6,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
@@ -31,12 +34,15 @@ public class Testing {
 	        URL url = new URL("http://172.20.23.7:5555/wd/hub");
 	        driver = new RemoteWebDriver(url, dc);
 	    }
-	    
+	    @Parameters("URL")
 	    @Test(priority=1)
-	    public void Login() throws InterruptedException {
+	    public void login(@Optional("defaultURL") String URL) throws InterruptedException
+	    //public void Login() throws InterruptedException 
+	    {
 	    
 	    driver.manage().window().maximize();
-	    driver.get("http://apollo2.humanbrain.in/");
+	    driver.get(URL);
+	    //driver.get("http://apollo2.humanbrain.in/");
 	    System.out.println("==================================================================");
 	    System.out.println("The server is Opened Sucessfully");
 	    System.out.println("==================================================================");
