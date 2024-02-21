@@ -90,41 +90,66 @@ public class Testing {
 	    driver.switchTo().window(parentWindow);
 	    Thread.sleep(5000);
 	    }
+	    
 	    @Test(priority=2)
-	    public void table() {
-	    try {
-	    WebDriverWait wait6 = new WebDriverWait(driver,30);
-	    WebElement table1 = wait6.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()=' Human fetus ']")));
-	    table1.click();
-	    System.out.println("HumanFetus TaB is clicked");
-	    System.out.println("==================================================================");
+		public void series_set() throws InterruptedException
+		{
+			WebDriverWait wait = new WebDriverWait(driver, 30); 
+			driver.switchTo().defaultContent();
+	
+			
+	    	 try {
+	    		    WebElement Mouse = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//table[@class='cdk-table nb-tree-grid']//tr[6]")));
+	    		    Mouse.click();
+	    		    System.out.println("Human Fetus clicked successfully.");
+	    		    Thread.sleep(2000);
+	    		} catch (Exception e) {
+	    		    System.out.println("Human Fetus not clicked: " + e.getMessage());
+	    		}
+	   
+	    	 
+	    	 try {
+	    		    WebElement Brain = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//table[@class='cdk-table nb-tree-grid']//tr[7]//td[2]")));
+	    		    Brain.click();
+	    		    System.out.println(" Brain clicked successfully.");
+	    		    Thread.sleep(2000);
+	    		} catch (Exception e) {
+	    		    System.out.println("Brain not clicked: " + e.getMessage());
+	    		}
+	    	 
+	    	 
+	    	 try {
+	 		    WebElement MTB_10 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[text()=' FB_3']")));
+	 		    MTB_10.click();
+	 		    System.out.println("Fb 3 clicked successfully.");
+	 		    Thread.sleep(2000);
+	 		} catch (Exception e) {
+	 		    System.out.println(" Fb 3 not clicked: " + e.getMessage());
+	 		}
+	    	 
+	    	 
+	    	 String parentWindow = driver.getWindowHandle();
+	    	 try {
+		 		    WebElement viewericon = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//nb-icon[@nbtooltip='Viewer']")));
+		 		   viewericon.click();
+		 		    System.out.println("viewer icon is clicked successfully.");
+		 		    Thread.sleep(2000);
+		 		} catch (Exception e) {
+		 		    System.out.println(" viewer icon is not clicked: " + e.getMessage());
+		 		}
+	    	 
+	    	 wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+			  Set<String> allWindows = driver.getWindowHandles();
+		        for (String window : allWindows) {
+		            if (!window.equals(parentWindow)) {
+		                driver.switchTo().window(window);
+		                break;
+		            }
+		        }
+	      
 	    }
-	    catch (Exception e) {
-	    System.out.println("HumanFetus TaB is not clicked");
-	    System.out.println("==================================================================");
-	    }
-	    try {
-	    WebDriverWait wait7 = new WebDriverWait(driver,30);
-	    WebElement table2 = wait7.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()=' Brain ']")));
-	    table2.click();
-	    System.out.println("Brain Tab is clicked");
-	    System.out.println("==================================================================");
-	    }
-	    catch(Exception e) {
-	    System.out.println("Brain Tab is not clicked");
-	    System.out.println("==================================================================");
-	    }
-	    try {
-	    WebDriverWait wait8 = new WebDriverWait(driver,30);
-	    WebElement table3 = wait8.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[text()=' FB_3']")));
-	    table3.click();
-	    System.out.println("The fetal brain 3 is clicked");
-	    System.out.println("==================================================================");
-	    }
-	    catch(Exception e) {
-	    System.out.println("The fetal brain 3 is not clicked");
-	    System.out.println("==================================================================");
-	    }}
+	    
+	    
 	    @Test (priority=3)
 	    public void Rotation() throws InterruptedException {
 //	    try {
