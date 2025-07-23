@@ -35,62 +35,82 @@ public class Testing {
 	        driver = new RemoteWebDriver(url, dc);
 	    }
 	    @Parameters("URL")
-	    @Test(priority=1)
-	    public void login(@Optional("defaultURL") String URL) throws InterruptedException
-	    //public void Login() throws InterruptedException 
-	    {
-	    
-	    driver.manage().window().maximize();
-	    driver.get(URL);
-	    //driver.get("http://apollo2.humanbrain.in/");
-	    System.out.println("==================================================================");
-	    System.out.println("The server is Opened Sucessfully");
-	    System.out.println("==================================================================");
-	    WebDriverWait wait = new WebDriverWait(driver, 20);
-	    WebElement viewerSectionLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@class, 'ng-tns-c93-3')]")));
-	    viewerSectionLink.click();
-	    System.out.println("The Viewer Icon is clicked");
-	    System.out.println("==================================================================");
-	    String parentWindow = driver.getWindowHandle();
-	    WebDriverWait wait1 = new WebDriverWait(driver, 20);
-	    WebElement login = wait1.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()=' Log In ']")));
-	    login.click();
-	    System.out.println("The login Button is clicked");
-	    System.out.println("==================================================================");
-	    Thread.sleep(4000);
-	    Set<String> allWindows = driver.getWindowHandles();
-	    for (String window : allWindows) {
-	    if (!window.equals(parentWindow)) {
-	    driver.switchTo().window(window);
-	    break;
-	    }
-	    }
-	    Thread.sleep(4000);
-	    WebDriverWait wait2 = new WebDriverWait(driver,20);
-	    WebElement emailInput = wait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='email']")));
-	    emailInput.sendKeys("teamsoftware457@gmail.com");
-	    System.out.println("Mail I'd is entered");
-	    System.out.println("==================================================================");
-	    WebDriverWait wait3 = new WebDriverWait(driver,20);
-	    WebElement Next = wait3.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Next']")));
-	    Next.click();
-	    System.out.println("The Next Button is clicked");
-	    System.out.println("==================================================================");
-	    WebDriverWait wait4 = new WebDriverWait(driver,20);
-	    WebElement PasswordInput = wait4.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='password']")));
-	    PasswordInput.sendKeys("Health#123");
-	    System.out.println("Password is entered");
-	    System.out.println("==================================================================");
-	    WebDriverWait wait5 = new WebDriverWait(driver,20);
-	    WebElement Next2 = wait5.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Next']")));
-	    Next2.click();
-	    System.out.println("The Next Button is clicked");
-	    System.out.println("==================================================================");
-	    Thread.sleep(5000);
-	    driver.switchTo().window(parentWindow);
-	    Thread.sleep(5000);
-	    }
-	    
+	   @Test(priority = 1)
+	public void login() throws InterruptedException {
+	driver.get("https://apollo2.humanbrain.in/viewer/annotation/portal");
+	driver.manage().window().maximize();
+	String currentURL = driver.getCurrentUrl();
+	System.out.println("Current URL: " + currentURL);
+	WebDriverWait wait = new WebDriverWait(driver, 60);
+	driver.switchTo().defaultContent(); // Switch back to default content
+	WebElement viewerElement = wait
+	.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@title='Viewer']")));
+	if (viewerElement.isEnabled() && viewerElement.isDisplayed()) {
+	viewerElement.click();
+	System.out.println("Viewer icon is clicked");
+	} else {
+	System.out.println("Viewer icon is not clickable");
+	}
+
+	String parentWindow = driver.getWindowHandle();
+	WebElement loginButton = wait
+	.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()=' Log In ']")));
+	if (loginButton != null) {
+	loginButton.click();
+	System.out.println("Login button clicked successfully.");
+	} else {
+	System.out.println("Login button is not clicked.");
+	}
+
+	wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+	Set<String> allWindows = driver.getWindowHandles();
+	for (String window : allWindows) {
+	if (!window.equals(parentWindow)) {
+	driver.switchTo().window(window);
+	break;
+	}
+	}
+	WebElement emailInput = wait
+	.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@type='email']")));
+	if (emailInput != null && emailInput.isDisplayed()) {
+	emailInput.sendKeys("teamsoftware457@gmail.com");
+	System.out.println("Email was entered successfully.");
+	} else {
+	System.out.println("Email was not entered.");
+	}
+
+	WebElement nextButton1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Next']")));
+	if (nextButton1 != null) {
+	nextButton1.click();
+	System.out.println("Next button 1 is clicked.");
+	} else {
+	System.out.println("Next button 1 is not clicked.");
+	}
+
+	WebElement passwordInput = wait.until(
+	ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@aria-label='Enter your password']")));
+	passwordInput.sendKeys("Health#123");
+	if (passwordInput.getAttribute("value").equals("Health#123")) {
+	System.out.println("Password was entered successfully.");
+	} else {
+	System.out.println("Password was not entered.");
+	}
+
+	WebElement nextButton2 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text()='Next']")));
+	if (nextButton2 != null) {
+	nextButton2.click();
+	System.out.println("Next button 2 is clicked.");
+	} else {
+	System.out.println("Next button 2 is not clicked.");
+	}
+
+	driver.switchTo().window(parentWindow);
+	System.out.println("Login successfully");
+
+	System.out.println("************************Login validation done***********************");
+	Thread.sleep(5000);
+	}
+
 	    @Test(priority=2)
 		public void series_set() throws InterruptedException
 		{
